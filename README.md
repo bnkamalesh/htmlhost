@@ -1,3 +1,5 @@
+<p align="center"><img src="https://user-images.githubusercontent.com/1092882/99123668-a3951000-2626-11eb-8cb3-7e25da2129b5.png" alt="htmlhost.live gopher" width="256px"/></p>
+
 # HTMLHost.live
 
 If you've tried hosting a simple HTML file, be it for sharing with someone or just for the kicks. You know it's a time consuming task. There are some solutions out there but requires registration, or is just tedious and some are on the way of becoming a great experience. At least for me, none of the existing solutions worked, and I had a very specific usecase as well!
@@ -15,3 +17,8 @@ $ curl http://localhost
 ```
 
 Once docker-compose is up, you can open [localhost](http://localhost) in your browser
+
+
+## The Gopher
+
+The gopher used here was created using Gopherize.me. Bring HTML to life like our gopher here!
