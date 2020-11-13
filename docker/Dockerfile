@@ -4,8 +4,7 @@ COPY ${PWD} /app-src
 WORKDIR /app-src
 
 RUN CGO_ENABLED=0 go build -mod=vendor -ldflags '-s -w -extldflags "-static"' -o /app/htmlhost *.go
-
-COPY internal/server/http/web internal/server/http/web
+COPY internal/server/http/web /app/internal/server/http/web
 
 FROM alpine:3.12
 LABEL MAINTAINER Kamaleshwar <bnkamalesh@gmail.com>
@@ -20,4 +19,4 @@ WORKDIR /home/appuser/app
 
 EXPOSE 8000
 
-CMD ["htmlhost"]
+CMD ["./htmlhost"]
