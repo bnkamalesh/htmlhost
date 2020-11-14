@@ -15,6 +15,12 @@ func routes(handlers *Handler) []*webgo.Route {
 			Handlers: []http.HandlerFunc{handlers.Home},
 		},
 		&webgo.Route{
+			Name:     "static",
+			Pattern:  "/static/:path*",
+			Method:   http.MethodGet,
+			Handlers: []http.HandlerFunc{handlers.Static},
+		},
+		&webgo.Route{
 			Name:     "submitpage",
 			Pattern:  "/",
 			Method:   http.MethodPost,

@@ -3,9 +3,11 @@ package http
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"runtime/debug"
+	"strconv"
 	"text/template"
 	"time"
 
@@ -51,8 +53,54 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return
 	}
+	bodybytes := buff.Bytes()
+
+	etag := "home" + now.String() + strconv.Itoa(len(bodybytes))
+	if r.Header.Get("If-None-Match") == etag {
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	w.Write(buff.Bytes())
+	w.Header().Set("Date", now.Local().String())
+	w.Header().Set("Last-Modified", now.Local().String())
+	w.Header().Add("Content-Length", strconv.Itoa(len(bodybytes)))
+	w.Header().Add("ETag", etag)
+	w.Write(bodybytes)
+}
+
+func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
+	defer h.recoverer(w)
+
+	wctx := webgo.Context(r)
+	path := wctx.Params()["path"]
+
+	etag := fmt.Sprintf("%s-%s", path, now.String())
+	if r.Header.Get("If-None-Match") == etag {
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
+
+	dat, err := ioutil.ReadFile(fmt.Sprintf("./internal/server/http/web/static/%s", path))
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		return
+	}
+
+	kind, err := detectFileType(dat)
+	if err != nil {
+		w.WriteHeader(http.StatusUnsupportedMediaType)
+		w.Write([]byte("not supported"))
+		return
+	}
+
+	w.Header().Add("Content-Type", kind)
+	w.Header().Set("Date", now.Local().String())
+	w.Header().Set("Last-Modified", now.Local().String())
+	w.Header().Add("Content-Length", strconv.Itoa(len(dat)))
+	w.Header().Add("ETag", etag)
+	w.Write(dat)
 }
 
 func (h *Handler) CreatePage(w http.ResponseWriter, r *http.Request) {
