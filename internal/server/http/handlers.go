@@ -127,6 +127,56 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	w.Write(dat)
 }
 
+func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
+	defer h.recoverer(w)
+
+	path := r.RequestURI[1:]
+	fmt.Println("path:", path)
+
+	expiry := time.Now().Add(time.Hour * 2)
+	w.Header().Set(
+		"Cache-Control",
+		fmt.Sprintf(
+			"public,max-age=%v,immutable",
+			time.Until(expiry).Seconds(),
+		),
+	)
+	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
+
+	etag := fmt.Sprintf("%s-%s", path, startedAt.String())
+	if r.Header.Get("If-None-Match") == etag ||
+		r.Header.Get("If-Modified-Since") == startedAtHTTPFormatted {
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
+
+	dat, err := ioutil.ReadFile(fmt.Sprintf("./internal/server/http/web/static/meta/%s", path))
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		return
+	}
+
+	kind := ""
+	if webgo.Context(r).Route.Name == "site-manifest" {
+		kind = "application/json"
+	} else {
+		kind, err = detectFileType(dat)
+		if err != nil {
+			w.WriteHeader(http.StatusUnsupportedMediaType)
+			w.Write([]byte("not supported"))
+			return
+		}
+	}
+
+	w.Header().Set("Content-Type", kind)
+	w.Header().Set("Date", startedAtHTTPFormatted)
+	w.Header().Set("Last-Modified", startedAtHTTPFormatted)
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Header().Set("ETag", etag)
+	w.Write(dat)
+}
+
 func (h *Handler) CreatePage(w http.ResponseWriter, r *http.Request) {
 	defer h.recoverer(w)
 
