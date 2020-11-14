@@ -260,6 +260,19 @@
             display: none;
         }
 
+        .redborder {
+            border-color: var(--severeWarning);
+        }
+        .greenborder {
+            border-color: var(--successGreen);
+        }
+        #validationErr {
+            color: var(--severeWarning);
+            font-style: italic;
+        }
+        #validationErr:empty {
+            display: none;
+        }
         @media only screen and (max-width: 520px) {
             main {
                 margin-top: 0;
@@ -315,6 +328,8 @@
                 <label for="mathinput">How much is <span id="equation"></span>?</label>
                 <input id="mathinput" type="number" placeholder="0" min="-20" max="20" maxlength="2"/>
                 <button>Submit</button>
+                <br/>
+                <span id="validationErr"></span>
                 <p id="generatedLink">
                     <a href="{{.Link}}" target="_blank">{{.Link}}</a>
                 </p>
@@ -373,16 +388,43 @@
                 generatedLinkDOM.remove()
             }
 
+            const formDOM = document.getElementById("pagesubmit");
+            const validationErrDOM = document.getElementById("validationErr");
             const a = parseInt(Math.random() * 100) % 10, b = parseInt((Math.random() * 100)) % 10;
             const equationDOM = document.getElementById("equation");
             equationDOM.innerHTML = a + " + " + b;
 
             const mathDOM = document.getElementById("mathinput");
-            const formDOM = document.getElementById("pagesubmit");
+            mathDOM.onchange = ()=>{
+                validationErrDOM.innerHTML = ""
+                if(parseInt(mathDOM.value) == (a+b)) {
+                    mathDOM.className = "greenborder"
+                } else {
+                    mathDOM.className = "redborder"
+                }
+            };
+
+
             const textareaDOM = formDOM.querySelector("textarea");
+            textareaDOM.onchange = () =>{
+                validationErrDOM.innerHTML = ""
+                if(!textareaDOM.value.trim()) {
+                    textareaDOM.className = "redborder"
+                } else {
+                    textareaDOM.className = "greenborder"
+                }
+            }
 
             formDOM.onsubmit = (e) => {
-                if (parseInt(mathDOM.value) !== (a + b) || !textareaDOM.value.trim()) {
+                if (parseInt(mathDOM.value) !== (a + b)) {
+                    mathDOM.className = "redborder"
+                    validationErrDOM.innerHTML = 'here you go, the correct answer is <strong style="font-style: normal">' + (a+b) + '<strong>'
+                    return false
+                } 
+
+                if (!textareaDOM.value.trim()) {
+                    textareaDOM.className = "redborder"
+                    validationErrDOM.innerHTML = "how about we add some content as well? :)"
                     return false
                 }
 
