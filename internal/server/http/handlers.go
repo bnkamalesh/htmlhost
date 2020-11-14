@@ -56,6 +56,16 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	bodybytes := buff.Bytes()
 
+	expiry := time.Now().Add(time.Hour * 2)
+	w.Header().Set(
+		"Cache-Control",
+		fmt.Sprintf(
+			"public,max-age=%v,immutable",
+			time.Until(expiry).Seconds(),
+		),
+	)
+	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
+
 	etag := "home" + startedAtHTTPFormatted + strconv.Itoa(len(bodybytes))
 	if r.Header.Get("If-None-Match") == etag ||
 		r.Header.Get("If-Modified-Since") == startedAtHTTPFormatted {
@@ -66,8 +76,9 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.Header().Set("Date", startedAtHTTPFormatted)
 	w.Header().Set("Last-Modified", startedAtHTTPFormatted)
-	w.Header().Add("Content-Length", strconv.Itoa(len(bodybytes)))
-	w.Header().Add("ETag", etag)
+	w.Header().Set("Content-Length", strconv.Itoa(len(bodybytes)))
+	w.Header().Set("ETag", etag)
+
 	w.Write(bodybytes)
 }
 
@@ -77,8 +88,19 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	wctx := webgo.Context(r)
 	path := wctx.Params()["path"]
 
+	expiry := time.Now().Add(time.Hour * 2)
+	w.Header().Set(
+		"Cache-Control",
+		fmt.Sprintf(
+			"public,max-age=%v,immutable",
+			time.Until(expiry).Seconds(),
+		),
+	)
+	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
+
 	etag := fmt.Sprintf("%s-%s", path, startedAt.String())
-	if r.Header.Get("If-None-Match") == etag {
+	if r.Header.Get("If-None-Match") == etag ||
+		r.Header.Get("If-Modified-Since") == startedAtHTTPFormatted {
 		w.WriteHeader(http.StatusNotModified)
 		return
 	}
@@ -97,11 +119,11 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Add("Content-Type", kind)
+	w.Header().Set("Content-Type", kind)
 	w.Header().Set("Date", startedAtHTTPFormatted)
 	w.Header().Set("Last-Modified", startedAtHTTPFormatted)
-	w.Header().Add("Content-Length", strconv.Itoa(len(dat)))
-	w.Header().Add("ETag", etag)
+	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
+	w.Header().Set("ETag", etag)
 	w.Write(dat)
 }
 
@@ -151,28 +173,26 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 			ID:        pageID,
 			Content:   msg,
 			CreatedAt: startedAt,
+			Expiry:    time.Now().Add(time.Hour * 1),
 		}
 		w.WriteHeader(status)
 	}
 
 	createdAtFormatted := pg.CreatedAt.Format(http.TimeFormat)
+	w.Header().Set(
+		"Cache-Control",
+		fmt.Sprintf(
+			"public,max-age=%v,immutable",
+			time.Until(pg.Expiry).Seconds(),
+		),
+	)
+	w.Header().Set("Expires", pg.Expiry.Format(http.TimeFormat))
+	w.Header().Set("ETag", pg.ID)
 
-	if err == nil {
-		w.Header().Add(
-			"Cache-Control",
-			fmt.Sprintf(
-				"public,max-age=%v,must-revalidate",
-				time.Until(pg.Expiry).Seconds(),
-			),
-		)
-		w.Header().Set("Expires", pg.Expiry.Format(http.TimeFormat))
-		w.Header().Add("ETag", pg.ID)
-
-		if r.Header.Get("If-None-Match") == pg.ID ||
-			r.Header.Get("If-Modified-Since") == createdAtFormatted {
-			w.WriteHeader(http.StatusNotModified)
-			return
-		}
+	if r.Header.Get("If-None-Match") == pg.ID ||
+		r.Header.Get("If-Modified-Since") == createdAtFormatted {
+		w.WriteHeader(http.StatusNotModified)
+		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")

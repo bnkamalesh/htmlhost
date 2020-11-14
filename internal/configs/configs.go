@@ -1,7 +1,6 @@
 package configs
 
 import (
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -21,7 +20,7 @@ func (cfg *Configs) HTTP() *http.Config {
 	if baseURL == "" {
 		baseURL = "https://htmlhost.live"
 	}
-	fmt.Println(baseURL)
+
 	return &http.Config{
 		Host:             cfg.getEnv("HTTP_HOST"),
 		Port:             cfg.getEnv("HTTP_PORT"),
