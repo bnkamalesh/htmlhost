@@ -148,11 +148,14 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		status, msg, _ := errors.HTTPStatusCodeMessage(err)
 		pg = &pages.Page{
-			ID:      pageID,
-			Content: msg,
+			ID:        pageID,
+			Content:   msg,
+			CreatedAt: startedAt,
 		}
 		w.WriteHeader(status)
 	}
+
+	createdAtFormatted := pg.CreatedAt.Format(http.TimeFormat)
 
 	if err == nil {
 		w.Header().Add(
@@ -164,13 +167,14 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 		)
 		w.Header().Set("Expires", pg.Expiry.Format(http.TimeFormat))
 		w.Header().Add("ETag", pg.ID)
-		if r.Header.Get("If-None-Match") == pg.ID {
+
+		if r.Header.Get("If-None-Match") == pg.ID ||
+			r.Header.Get("If-Modified-Since") == createdAtFormatted {
 			w.WriteHeader(http.StatusNotModified)
 			return
 		}
 	}
 
-	createdAtFormatted := pg.CreatedAt.Format(http.TimeFormat)
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.Header().Set("Date", createdAtFormatted)
 	w.Header().Set("Last-Modified", createdAtFormatted)
