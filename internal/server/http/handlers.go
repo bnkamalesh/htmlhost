@@ -18,7 +18,8 @@ import (
 )
 
 var (
-	now = time.Now()
+	startedAt              = time.Now()
+	startedAtHTTPFormatted = startedAt.Format(http.TimeFormat)
 )
 
 // Handler has all the dependencies initialized and stored, and made available to all the handler
@@ -55,15 +56,16 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	bodybytes := buff.Bytes()
 
-	etag := "home" + now.String() + strconv.Itoa(len(bodybytes))
-	if r.Header.Get("If-None-Match") == etag {
+	etag := "home" + startedAtHTTPFormatted + strconv.Itoa(len(bodybytes))
+	if r.Header.Get("If-None-Match") == etag ||
+		r.Header.Get("If-Modified-Since") == startedAtHTTPFormatted {
 		w.WriteHeader(http.StatusNotModified)
 		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	w.Header().Set("Date", now.Local().String())
-	w.Header().Set("Last-Modified", now.Local().String())
+	w.Header().Set("Date", startedAtHTTPFormatted)
+	w.Header().Set("Last-Modified", startedAtHTTPFormatted)
 	w.Header().Add("Content-Length", strconv.Itoa(len(bodybytes)))
 	w.Header().Add("ETag", etag)
 	w.Write(bodybytes)
@@ -75,7 +77,7 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	wctx := webgo.Context(r)
 	path := wctx.Params()["path"]
 
-	etag := fmt.Sprintf("%s-%s", path, now.String())
+	etag := fmt.Sprintf("%s-%s", path, startedAt.String())
 	if r.Header.Get("If-None-Match") == etag {
 		w.WriteHeader(http.StatusNotModified)
 		return
@@ -96,8 +98,8 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add("Content-Type", kind)
-	w.Header().Set("Date", now.Local().String())
-	w.Header().Set("Last-Modified", now.Local().String())
+	w.Header().Set("Date", startedAtHTTPFormatted)
+	w.Header().Set("Last-Modified", startedAtHTTPFormatted)
 	w.Header().Add("Content-Length", strconv.Itoa(len(dat)))
 	w.Header().Add("ETag", etag)
 	w.Write(dat)
@@ -129,9 +131,11 @@ func (h *Handler) CreatePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	nowFormatted := time.Now().Format(http.TimeFormat)
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	w.Header().Set("Date", now.Local().String())
-	w.Header().Set("Last-Modified", now.Local().String())
+	w.Header().Set("Date", nowFormatted)
+	w.Header().Set("Last-Modified", nowFormatted)
+
 	w.Write(buff.Bytes())
 }
 
@@ -158,7 +162,7 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 				time.Until(pg.Expiry).Seconds(),
 			),
 		)
-		w.Header().Set("Expires", pg.Expiry.Local().String())
+		w.Header().Set("Expires", pg.Expiry.Format(http.TimeFormat))
 		w.Header().Add("ETag", pg.ID)
 		if r.Header.Get("If-None-Match") == pg.ID {
 			w.WriteHeader(http.StatusNotModified)
@@ -166,9 +170,10 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	createdAtFormatted := pg.CreatedAt.Format(http.TimeFormat)
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	w.Header().Set("Date", pg.CreatedAt.Local().String())
-	w.Header().Set("Last-Modified", pg.CreatedAt.Local().String())
+	w.Header().Set("Date", createdAtFormatted)
+	w.Header().Set("Last-Modified", createdAtFormatted)
 	w.Write([]byte(pg.Content))
 }
 
