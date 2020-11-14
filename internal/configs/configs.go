@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -16,11 +17,17 @@ func (cfg *Configs) getEnv(key string) string {
 }
 
 func (cfg *Configs) HTTP() *http.Config {
+	baseURL := cfg.getEnv("GENERATED_BASEURL")
+	if baseURL == "" {
+		baseURL = "https://htmlhost.live"
+	}
+	fmt.Println(baseURL)
 	return &http.Config{
-		Host:         cfg.getEnv("HTTP_HOST"),
-		Port:         cfg.getEnv("HTTP_PORT"),
-		ReadTimeout:  time.Second * 3,
-		WriteTimeout: time.Second * 3,
+		Host:             cfg.getEnv("HTTP_HOST"),
+		Port:             cfg.getEnv("HTTP_PORT"),
+		ReadTimeout:      time.Second * 3,
+		WriteTimeout:     time.Second * 3,
+		GeneratedBaseURL: baseURL,
 	}
 }
 
@@ -36,12 +43,11 @@ func (cfg *Configs) Pages() *pages.Config {
 	}
 
 	return &pages.Config{
-		Host:      host,
-		Port:      port,
-		StoreName: cfg.getEnv("DATASTORE_NAME"),
-		Password:  cfg.getEnv("DATASTORE_PASSWORD"),
-		PoolSize:  25,
-
+		Host:             host,
+		Port:             port,
+		StoreName:        cfg.getEnv("DATASTORE_NAME"),
+		Password:         cfg.getEnv("DATASTORE_PASSWORD"),
+		PoolSize:         25,
 		IdleTimeoutSecs:  time.Second * 60,
 		ReadTimeoutSecs:  time.Second * 5,
 		WriteTimeoutSecs: time.Second * 5,

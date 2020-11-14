@@ -37,7 +37,13 @@
 
         * {
             box-sizing: border-box;
-            transition: background-color 0.25s, color 0.25s, border-color 0.25s, margin 0.25s, font-size 0.25s;
+            transition: background-color 0.25s,
+                color 0.25s,
+                border-color 0.25s,
+                margin 0.25s,
+                font-size 0.25s,
+                width 0.25s,
+                max-width 0.25s;
         }
 
         html,
@@ -79,6 +85,30 @@
             margin: 0 0 1em;
             padding: 0;
             line-height: 1.5em;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+        }
+
+        h5 {
+            font-size: 0.875rem;
+        }
+
+        h6 {
+            font-size: 0.75rem;
         }
 
         p {
@@ -180,7 +210,7 @@
         form div {
             font-size: 0.875rem;
             line-height: 1.5em;
-            margin: 1rem 0;
+            margin: 1rem 0 0;
             text-align: right;
         }
 
@@ -197,23 +227,60 @@
             font-size: 1.5rem;
             line-height: 2em;
             text-align: center;
-            transition: height 1s;
-            height: 0;
-            overflow: hidden;
+            margin: 1.5rem 0 0;
         }
 
         #message {
             font-size: 1.5rem;
             line-height: 2em;
             text-align: center;
-        
+
             color: var(--severeWarning);
         }
+
         #message:empty {
             display: none;
         }
 
         @media only screen and (max-width: 520px) {
+            main {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
+            }
+
+            h4 {
+                font-size: 1rem;
+            }
+
+            h5 {
+                font-size: 0.875rem;
+            }
+
+            h6 {
+                font-size: 0.75rem;
+            }
+
+            header img {
+                max-width: 8rem;
+            }
+
+            #generatedLink a {
+                display: block;
+            }
+
             form div {
                 text-align: center;
             }
@@ -250,7 +317,7 @@
                 <button>Submit</button>
                 <p id="generatedLink">
                     <strong>Your link:</strong>
-                    <a href="{{.Link}}">{{.Link}}</a>
+                    <a href="{{.Link}}" target="_blank">{{.Link}}</a>
                 </p>
                 <p id="message">{{.Message}}</p>
             </div>
@@ -259,7 +326,8 @@
             <h2 id="how">How?</h2>
             <p>
                 It's fairly simple to use, you submit your raw HTML; get back a random generated URL,
-                and that's about it. <br />
+                and that's about it.
+                <br /><br />
                 <strong>Important:</strong> <em>The links are/will be kept alive only for 1hr. This is considering
                     NSFW content, legal issues etc. since everything is completely anonymous and 0% tracked.
                     It was built out of a developer's frustration, please use responsibly.</em>
@@ -301,11 +369,9 @@
     <script>
         (function () {
             const generatedLinkDOM = document.querySelector("#generatedLink");
-            const generatedLinkAnchorDOM = document.querySelector("#generatedLink a");
-            if(generatedLinkAnchorDOM.innerText.trim() === "") {
+            const genLinkTxt = "{{.Link}}";
+            if (genLinkTxt == "") {
                 generatedLinkDOM.remove()
-            } else {
-                generatedLinkDOM.style.height = "2em"
             }
 
             const a = parseInt(Math.random() * 100) % 10, b = parseInt((Math.random() * 100)) % 10;
@@ -321,7 +387,7 @@
                     return false
                 }
 
-                formDOM.setAttribute("action", "/")
+                formDOM.setAttribute("action", "/#generatedLink")
                 formDOM.setAttribute("method", "POST")
             }
         }());

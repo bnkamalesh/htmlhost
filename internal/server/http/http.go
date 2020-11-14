@@ -48,6 +48,8 @@ type Config struct {
 	WriteTimeout     time.Duration
 	MaxHeaderSize    int
 	MaxBodysizeBytes int
+
+	GeneratedBaseURL string
 }
 
 func (c *Config) Sanitize() {
@@ -84,7 +86,7 @@ func New(cfg *Config, api *api.API) (*Server, error) {
 		WriteTimeout: cfg.WriteTimeout,
 	}
 
-	handlers, err := newHandler(api)
+	handlers, err := newHandler(api, cfg.GeneratedBaseURL)
 	if err != nil {
 		return nil, err
 	}

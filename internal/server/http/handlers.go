@@ -15,11 +15,16 @@ import (
 	"github.com/bnkamalesh/webgo/v4"
 )
 
+var (
+	now = time.Now()
+)
+
 // Handler has all the dependencies initialized and stored, and made available to all the handler
 // methods
 type Handler struct {
-	templates map[string]*template.Template
-	api       *api.API
+	templates        map[string]*template.Template
+	generatedBaseURL string
+	api              *api.API
 }
 
 type PageResponse struct {
@@ -36,11 +41,6 @@ func (handler *Handler) recoverer(w http.ResponseWriter) {
 
 	log.Println(rec, string(debug.Stack()))
 	webgo.R500(w, "sorry, unknown error occurred")
-}
-
-func httpRespondError(w http.ResponseWriter, err error) {
-	status, msg, _ := errors.HTTPStatusCodeMessage(err)
-	webgo.SendError(w, msg, status)
 }
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
@@ -68,17 +68,22 @@ func (h *Handler) CreatePage(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(status)
 		pr.Message = msg
 	} else {
-		pr.Link = "https://htmlhost.live/p/" + pg.ID
+		pr.Link = pg.URL(h.generatedBaseURL)
 		pr.Content = pg.Content
 	}
 
 	buff := bytes.NewBuffer([]byte{})
 	err = h.templates["home"].Execute(buff, pr)
 	if err != nil {
+		status, msg, _ := errors.HTTPStatusCodeMessage(err)
+		w.WriteHeader(status)
+		w.Write([]byte(msg))
 		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	w.Header().Set("Date", now.Local().String())
+	w.Header().Set("Last-Modified", now.Local().String())
 	w.Write(buff.Bytes())
 }
 
@@ -95,8 +100,17 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 			Content: msg,
 		}
 		w.WriteHeader(status)
-	} else {
-		w.Header().Add("Cache-Control", fmt.Sprintf("public,max-age=%v,must-revalidate", pg.Expiry.Sub(time.Now()).Seconds()))
+	}
+
+	if err == nil {
+		w.Header().Add(
+			"Cache-Control",
+			fmt.Sprintf(
+				"public,max-age=%v,must-revalidate",
+				time.Until(pg.Expiry).Seconds(),
+			),
+		)
+		w.Header().Set("Expires", pg.Expiry.Local().String())
 		w.Header().Add("ETag", pg.ID)
 		if r.Header.Get("If-None-Match") == pg.ID {
 			w.WriteHeader(http.StatusNotModified)
@@ -105,10 +119,12 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	w.Header().Set("Date", pg.CreatedAt.Local().String())
+	w.Header().Set("Last-Modified", pg.CreatedAt.Local().String())
 	w.Write([]byte(pg.Content))
 }
 
-func newHandler(a *api.API) (*Handler, error) {
+func newHandler(a *api.API, baseURL string) (*Handler, error) {
 	tpl, err := template.ParseFiles(
 		"./internal/server/http/web/templates/home.html",
 	)
@@ -117,7 +133,8 @@ func newHandler(a *api.API) (*Handler, error) {
 	}
 
 	return &Handler{
-		api: a,
+		api:              a,
+		generatedBaseURL: baseURL,
 		templates: map[string]*template.Template{
 			"home": tpl,
 		},

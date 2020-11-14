@@ -2,6 +2,7 @@ package pages
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"time"
 
@@ -51,6 +52,10 @@ func (p *Page) Validate() error {
 		return errors.Validation("content cannot be empty")
 	}
 	return nil
+}
+
+func (p *Page) URL(baseURL string) string {
+	return fmt.Sprintf("%s/p/%s", baseURL, p.ID)
 }
 
 func newPage(content string) *Page {
