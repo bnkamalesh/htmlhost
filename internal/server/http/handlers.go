@@ -60,8 +60,8 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(
 		"Cache-Control",
 		fmt.Sprintf(
-			"public,max-age=%v,immutable",
-			time.Until(expiry).Seconds(),
+			"public,max-age=%d,immutable",
+			int(time.Until(expiry).Seconds()),
 		),
 	)
 	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
@@ -92,8 +92,8 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(
 		"Cache-Control",
 		fmt.Sprintf(
-			"public,max-age=%v,immutable",
-			time.Until(expiry).Seconds(),
+			"public,max-age=%d,immutable",
+			int(time.Until(expiry).Seconds()),
 		),
 	)
 	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
@@ -131,14 +131,13 @@ func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
 	defer h.recoverer(w)
 
 	path := r.RequestURI[1:]
-	fmt.Println("path:", path)
 
 	expiry := time.Now().Add(time.Hour * 2)
 	w.Header().Set(
 		"Cache-Control",
 		fmt.Sprintf(
-			"public,max-age=%v,immutable",
-			time.Until(expiry).Seconds(),
+			"public,max-age=%d,immutable",
+			int(time.Until(expiry).Seconds()),
 		),
 	)
 	w.Header().Set("Expires", expiry.Format(http.TimeFormat))
@@ -232,8 +231,8 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(
 		"Cache-Control",
 		fmt.Sprintf(
-			"public,max-age=%v,immutable",
-			time.Until(pg.Expiry).Seconds(),
+			"public,max-age=%d,immutable",
+			int(time.Until(pg.Expiry).Seconds()),
 		),
 	)
 	w.Header().Set("Expires", pg.Expiry.Format(http.TimeFormat))

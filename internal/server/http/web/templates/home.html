@@ -107,6 +107,7 @@
         }
 
         h1 {
+            font-family: serif;
             font-size: 2rem;
         }
 
@@ -256,13 +257,12 @@
         form div {
             font-size: 0.875rem;
             line-height: 1.5em;
-            margin: 1rem 0 0;
             text-align: right;
         }
 
         form div input {
             margin: 0 1rem;
-            width: 2.5rem;
+            width: 2.75rem;
             height: 2rem;
             padding-left: 0;
             padding-right: 0;
@@ -286,8 +286,9 @@
             max-width: 35rem;
             margin: 1.5rem auto 0;
             border-radius: 3px;
-        }
-
+            display: block;
+        }  
+        
         #message {
             font-size: 1.5rem;
             line-height: 2em;
@@ -326,6 +327,7 @@
             h1 {
                 text-align: center;
                 font-size: 1.75rem;
+                margin-bottom: 0.5em;
             }
 
             header img {
@@ -335,19 +337,26 @@
             #generatedLink {
                 font-size: 1rem;
                 line-height: 1.5em;
-            }
-
-            #generatedLink a {
-                display: block;
+                margin-top: 1em;
             }
 
             form div {
+                margin-top: 1rem;
                 text-align: center;
+            }
+            #mathinput {
+                font-size: 1rem;
+                line-height: 1.5rem;
+                
+                width: 3em;
+                height: 3em;
             }
 
             button {
+                font-size: 1.2rem;
+                line-height: 1.5rem;
                 display: block;
-                width: 80%;
+                width: 100%;
                 margin: 1rem auto 0;
             }
         }
@@ -357,33 +366,24 @@
 <body>
     <main>
         <header>
-            <img src="/static/images/logo.png" alt="HTMLhost.live" />
-            <h1 id="home">HTMLhost.live</h1>
+            <label for="inputbody"><img src="/static/images/logo.png" alt="HTMLhost.live" /></label>
+            <h1 id="home"><a href="#home">HTMLhost.live</a></h1>
         </header>
         <form action="/non-existent" method="GET" id="pagesubmit">
-            <textarea placeholder="<!doctype html> 
-<html>
-    <head>
-        <title>Hello world</title>
-    </head>
-    <body>
-        <h1>Hello world</h1>
-    </body>
-</html>" name="body">{{.Content}}</textarea>
+            <textarea id="inputbody" placeholder="Your HTML here. e.g. <h1>hello world</h1>" name="body">{{.Content}}</textarea>
             <div>
                 <label for="mathinput">How much is <span id="equation"></span>?</label>
-                <input id="mathinput" type="number" placeholder="0" min="-20" max="20" maxlength="2" />
+                <input id="mathinput" type="tel" placeholder="0" maxlength="2" />
                 <button>Submit</button>
-                <br />
+                <br>
                 <span id="validationErr"></span>
-                <p id="generatedLink">
-                    <a href="{{.Link}}" target="_blank">{{.Link}}</a>
-                </p>
                 <p id="message">{{.Message}}</p>
+                <br>
+                <a id="generatedLink" href="{{.Link}}" target="_blank">{{.Link}}</a>
             </div>
         </form>
         <section>
-            <h2 id="how">How?</h2>
+            <h2 id="how"><a href="#how">How?</a></h2>
             <p>
                 It's fairly simple to use, you submit your raw HTML; get back a random generated URL,
                 and that's about it.
@@ -395,7 +395,7 @@
         </section>
 
         <section>
-            <h2 id="about">About</h2>
+            <h2 id="about"><a href="#about">About</a></h2>
             <p>
                 If you've tried hosting a simple HTML file, be it for sharing with someone or just
                 for the kicks. You know it's a time consuming task. There are some solutions out there
@@ -413,7 +413,7 @@
         </section>
 
         <section>
-            <h3 id="techstack">Techstack</h3>
+            <h3 id="techstack"><a href="#techstack">Techstack</a></h3>
             <p>For anyone interested in knowing the techstack behind this</p>
             <ol>
                 <li><a href="https://golang.org">Go</a>, the programming language</li>
@@ -477,6 +477,7 @@
                 formDOM.setAttribute("action", "/#generatedLink")
                 formDOM.setAttribute("method", "POST")
             }
+
         }());
     </script>
 </body>
