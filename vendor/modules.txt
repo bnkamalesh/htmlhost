@@ -17,3 +17,16 @@ github.com/h2non/filetype/types
 # github.com/h2non/go-is-svg v0.0.0-20160927212452-35e8c4b0612c
 ## explicit
 github.com/h2non/go-is-svg
+# github.com/tdewolff/minify/v2 v2.9.10
+## explicit
+github.com/tdewolff/minify/v2
+github.com/tdewolff/minify/v2/css
+github.com/tdewolff/minify/v2/html
+github.com/tdewolff/minify/v2/js
+# github.com/tdewolff/parse/v2 v2.5.5
+github.com/tdewolff/parse/v2
+github.com/tdewolff/parse/v2/buffer
+github.com/tdewolff/parse/v2/css
+github.com/tdewolff/parse/v2/html
+github.com/tdewolff/parse/v2/js
+github.com/tdewolff/parse/v2/strconv

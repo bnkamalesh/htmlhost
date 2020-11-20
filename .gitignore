@@ -21,7 +21,6 @@ routesGenerator_test.go
 # vendor/
 
 ### Go Patch ###
-/vendor/
 /Godeps/
 
 ### Linux ###

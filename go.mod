@@ -8,4 +8,5 @@ require (
 	github.com/gomodule/redigo v1.8.2
 	github.com/h2non/filetype v1.1.0
 	github.com/h2non/go-is-svg v0.0.0-20160927212452-35e8c4b0612c
+	github.com/tdewolff/minify/v2 v2.9.10
 )
