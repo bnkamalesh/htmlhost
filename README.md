@@ -1,6 +1,14 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/1092882/99123668-a3951000-2626-11eb-8cb3-7e25da2129b5.png" alt="htmlhost.live gopher" width="256px"/></p>
 
-# HTMLHost.live
+# v0.2.16
+
+Currently this app is hosted under 3 domains, `htmlhost.live` was the first one I thought of, grabbed it quickly and deployed. After a few days, figured it could be named a tad bit better, so now it's available under:
+
+1. [htmlhost.live](https://htmlhost.live)
+2. [hosthtml.live](https://hosthtml.live)
+3. [makehtml.live](https://makehtml.live)
+
+## Why?
 
 If you've tried hosting a simple HTML file, be it for sharing with someone or just for the kicks. You know it's a time consuming task. There are some solutions out there but requires registration, or is just tedious and some are on the way of becoming a great experience. At least for me, none of the existing solutions worked, and I had a very specific usecase as well!
 

@@ -5,11 +5,12 @@ import (
 	"log"
 	"net/http"
 	"runtime/debug"
+	"strconv"
 	"text/template"
 	"time"
 
+	"github.com/bnkamalesh/errors"
 	"github.com/bnkamalesh/htmlhost/internal/api"
-	"github.com/bnkamalesh/htmlhost/internal/pages"
 	"github.com/bnkamalesh/webgo/v4"
 	"github.com/tdewolff/minify/v2"
 )
@@ -27,12 +28,6 @@ type Handler struct {
 
 	minifier *minify.M
 	api      *api.API
-}
-
-type PageResponse struct {
-	pages.Page
-	Link    string
-	Message string
 }
 
 func (handler *Handler) recoverer(w http.ResponseWriter) {
@@ -79,6 +74,22 @@ func cacheHeaders(w http.ResponseWriter, r *http.Request, etag string, modifiedD
 	}
 
 	return true
+}
+
+func (h *Handler) minifiedHTML(w http.ResponseWriter, payload []byte) {
+	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+
+	minified, err := h.minifier.Bytes("text/html", payload)
+	if err != nil {
+		status, msg, _ := errors.HTTPStatusCodeMessage(err)
+		w.Header().Set("Content-Length", strconv.Itoa(len(msg)))
+		w.WriteHeader(status)
+		w.Write([]byte(msg))
+		return
+	}
+
+	w.Header().Set("Content-Length", strconv.Itoa(len(minified)))
+	w.Write(minified)
 }
 
 func newHandler(a *api.API, baseURL string) (*Handler, error) {

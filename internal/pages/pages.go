@@ -2,7 +2,6 @@ package pages
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"time"
 
@@ -55,7 +54,7 @@ func (p *Page) Validate() error {
 }
 
 func (p *Page) URL(baseURL string) string {
-	return fmt.Sprintf("%s/p/%s", baseURL, p.ID)
+	return baseURL + "/p/" + p.ID
 }
 
 func newPage(content string) *Page {

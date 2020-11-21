@@ -72,7 +72,7 @@ func (c *Config) Sanitize() {
 
 	if c.MaxBodysizeBytes < 256 {
 		// 1MB
-		c.MaxBodysizeBytes = 1024 * 1024
+		c.MaxBodysizeBytes = 1024 * 1024 * 2
 	}
 }
 

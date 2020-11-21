@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title>HTMLhost.live</title>
+    <title>{{.Title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="HTMLhost.live is the fastest way of hosting your single page HTML!" />
-    <meta property="og:site_name" content="HTMLhost.live" />
+    <meta name="description" content="{{.Title}} is the fastest way of hosting your single page HTML!" />
+    <meta property="og:site_name" content="{{.Title}}" />
     <meta property="og:title" content="Instantly host your static HTML!" />
     <meta property="og:description"
-        content="HTMLhost.live is the fastest way of hosting your single page HTML. Pages created are kept alive for 1hr. No tracking, no registration, no hassle!" />
-    <meta property="og:image" itemprop="image" content="https://htmlhost.live/static/images/logo.png" />
+        content="{{.Title}} is the fastest way of hosting your single page HTML. Pages created are kept alive for 1hr. No tracking, no registration, no hassle!" />
+    <meta property="og:image" itemprop="image" content="{{.BaseURL}}/static/images/logo.png" />
     <meta property="og:type" content="website" />
 
     <meta name='theme-color' content='#019ced'>
@@ -366,8 +366,8 @@
 <body>
     <main>
         <header>
-            <label for="inputbody"><img src="/static/images/logo.png" alt="HTMLhost.live" /></label>
-            <h1 id="home"><a href="#home">HTMLhost.live</a></h1>
+            <label for="inputbody"><img src="/static/images/logo.png" alt="{{.Title}}" /></label>
+            <h1 id="home"><a href="#home">{{.Title}}</a></h1>
         </header>
         <form action="/non-existent" method="GET" id="pagesubmit">
             <textarea id="inputbody" placeholder="Your HTML here. e.g. <h1>hello world</h1>" name="body">{{.Content}}</textarea>
@@ -408,7 +408,7 @@
                 your template is hosted, and won't accept the HTML as is. And that's where my journey started,
                 after searching around and trying to use some of the services, finally I hosted it as
                 a <a href="https://github.com/bnkamalesh">Github</a> page. For me it turned out to be a time
-                consuming endeavour and I didn't think it was worth it, and thus <a href="/#home">HTMLHost.live</a>!
+                consuming endeavour and I didn't think it was worth it, and thus <a href="/#home">{{.Title}}</a>!
             </p>
         </section>
 
