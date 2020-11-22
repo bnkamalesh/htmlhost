@@ -18,11 +18,8 @@ import (
 	"github.com/tdewolff/minify/v2/js"
 )
 
-func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) readStatiFile(path string, fileDir string, w http.ResponseWriter, r *http.Request) {
 	defer h.recoverer(w)
-
-	wctx := webgo.Context(r)
-	path := wctx.Params()["path"]
 
 	expiry := time.Now().Add(time.Hour * 2)
 	etag := fmt.Sprintf("%s-%s", path, startedAt.String())
@@ -30,38 +27,7 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(fmt.Sprintf("./internal/server/http/web/static/%s", path))
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte("not found"))
-		return
-	}
-
-	kind, err := detectFileType(data)
-	if err != nil {
-		w.WriteHeader(http.StatusUnsupportedMediaType)
-		w.Write([]byte("not supported"))
-		return
-	}
-
-	w.Header().Set("Content-Type", kind)
-	w.Header().Set("Content-Length", strconv.Itoa(len(data)))
-	w.Write(data)
-}
-
-func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
-	defer h.recoverer(w)
-
-	path := r.RequestURI[1:]
-
-	expiry := time.Now().Add(time.Hour * 2)
-	etag := fmt.Sprintf("%s-%s", path, startedAt.String())
-
-	if !cacheHeaders(w, r, etag, startedAtHTTPFormatted, &expiry) {
-		return
-	}
-
-	dat, err := ioutil.ReadFile(fmt.Sprintf("./internal/server/http/web/static/meta/%s", path))
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", fileDir, path))
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("not found"))
@@ -72,7 +38,7 @@ func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
 	if webgo.Context(r).Route.Name == "site-manifest" {
 		ftype = "application/json"
 	} else {
-		ftype, err = detectFileType(dat)
+		ftype, err = detectFileType(data)
 		if err != nil {
 			w.WriteHeader(http.StatusUnsupportedMediaType)
 			w.Write([]byte("not supported"))
@@ -81,8 +47,23 @@ func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", ftype)
-	w.Header().Set("Content-Length", strconv.Itoa(len(dat)))
-	w.Write(dat)
+	w.Header().Set("Content-Length", strconv.Itoa(len(data)))
+	w.Write(data)
+}
+
+func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
+	defer h.recoverer(w)
+
+	wctx := webgo.Context(r)
+	path := wctx.Params()["path"]
+	h.readStatiFile(path, "./internal/server/http/web/static", w, r)
+}
+
+func (h *Handler) MetaStatic(w http.ResponseWriter, r *http.Request) {
+	defer h.recoverer(w)
+
+	path := r.RequestURI[1:]
+	h.readStatiFile(path, "./internal/server/http/web/static/meta", w, r)
 }
 
 func detectFileType(content []byte) (string, error) {

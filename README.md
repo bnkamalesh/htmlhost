@@ -1,12 +1,14 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/1092882/99123668-a3951000-2626-11eb-8cb3-7e25da2129b5.png" alt="htmlhost.live gopher" width="256px"/></p>
 
-# v0.2.16
+# v0.2.17
 
 Currently this app is hosted under 3 domains, `htmlhost.live` was the first one I thought of, grabbed it quickly and deployed. After a few days, figured it could be named a tad bit better, so now it's available under:
 
-1. [htmlhost.live](https://htmlhost.live)
+1. ~~[htmlhost.live](https://htmlhost.live)~~
 2. [hosthtml.live](https://hosthtml.live)
-3. [makehtml.live](https://makehtml.live)
+3. ~~[makehtml.live](https://makehtml.live)~~
+
+Currently all the above domains are live, but based on some internal polls I conducted, `hosthtml.live` won! So I won't be renewing the others later.
 
 ## Why?
 
@@ -26,6 +28,11 @@ $ curl http://localhost
 
 Once docker-compose is up, you can open [localhost](http://localhost) in your browser
 
+
+## Contributing
+
+Open to suggestions and contribution. Please open a [Github issue](https://github.com/bnkamalesh/htmlhost/issues/new) if you'd like to see something changed. Even better if you submit a pull request!
+Though please make sure if your suggestion, feedback, bug etc. is already raised in the [issue list](https://github.com/bnkamalesh/htmlhost/issues?q=), in which case just add a comment in the respective issue.
 
 ## The Gopher
 

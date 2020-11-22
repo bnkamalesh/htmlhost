@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/bnkamalesh/errors"
@@ -90,18 +89,9 @@ func (h *Handler) ViewPage(w http.ResponseWriter, r *http.Request) {
 
 type PageResponse struct {
 	pages.Page
-	Title   string
 	BaseURL string
 	Link    string
 	Message string
-}
-
-func pageTitle(baseURL string) string {
-	parts := strings.Split(baseURL, ".")
-	if len(parts) == 1 {
-		return strings.ReplaceAll(parts[0], "html", "HTML")
-	}
-	return strings.ReplaceAll(strings.Join(parts[:len(parts)-1], "."), "html", "HTML")
 }
 
 func newPageResponse(scheme string, host string) *PageResponse {
@@ -116,7 +106,6 @@ func newPageResponse(scheme string, host string) *PageResponse {
 		}
 	}
 	return &PageResponse{
-		Title:   pageTitle(host),
 		BaseURL: baseURL,
 	}
 }
