@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title>Host your HTML</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="This is the fastest way of hosting your single page HTML! Pages hosted are kept live for 1hr" />
+    <meta name="description"
+        content="This is the fastest way of hosting your single page HTML! Pages hosted are kept live for 1hr" />
     <meta property="og:site_name" content="Host your HTML!" />
     <meta property="og:title" content="Instantly host your static HTML!" />
     <meta property="og:description"
@@ -19,357 +20,28 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <meta name="msapplication-TileColor" content="#019ced">
     <meta name="theme-color" content="#019ced">
-
-
-
-    <style>
-        :root {
-            --themePrimary: #019ced;
-            --themeLighterAlt: #f4fbfe;
-            --themeLighter: #d4eefc;
-            --themeLight: #afdffa;
-            --themeTertiary: #62c1f4;
-            --themeSecondary: #1da6ef;
-            --themeDarkAlt: #008bd5;
-            --themeDark: #0075b4;
-            --themeDarker: #005685;
-            --neutralLighterAlt: #f6f6f6;
-            --neutralLighter: #f2f2f2;
-            --neutralLight: #e8e8e8;
-            --neutralQuaternaryAlt: #d8d8d8;
-            --neutralQuaternary: #cecece;
-            --neutralTertiaryAlt: #c6c6c6;
-            --neutralTertiary: #c2c2c2;
-            --neutralSecondary: #858585;
-            --neutralPrimaryAlt: #4b4b4b;
-            --neutralPrimary: #333333;
-            --neutralDark: #272727;
-            --black: #1d1d1d;
-            --white: #fcfcfc;
-
-            --severeWarning: #d83b01;
-            --successGreen: #107c10;
-            --successGreenBackground: #dff6dd;
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: background-color 0.25s,
-                color 0.25s,
-                border-color 0.25s,
-                margin 0.25s,
-                font-size 0.25s,
-                width 0.25s,
-                max-width 0.25s;
-        }
-
-        html,
-        body {
-            min-height: 100%;
-            width: 100%;
-        }
-
-        html {
-            font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", sans-serif;
-            font-size: 16px;
-            line-height: 1.5em;
-            font-weight: 300;
-        }
-
-        body {
-            background: var(--white);
-            color: var(--black);
-            padding: 0 1rem 2rem;
-            margin: 0;
-        }
-
-        strong {
-            font-weight: 700;
-        }
-
-        em {
-            font-size: 0.875rem;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: 600;
-            color: var(--themeDark);
-            margin: 0 0 1em;
-            padding: 0;
-            line-height: 1.5em;
-        }
-
-        h1 {
-            font-size: 2rem;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-        }
-
-        h3 {
-            font-size: 1.25rem;
-        }
-
-        h4 {
-            font-size: 1rem;
-        }
-
-        h5 {
-            font-size: 0.875rem;
-        }
-
-        h6 {
-            font-size: 0.75rem;
-        }
-
-        p {
-            margin: 0 0 1em 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--themePrimary);
-            transition: color 0.25s, border-color 0.25s;
-            cursor: pointer;
-            border-bottom: 1px solid var(--white);
-        }
-
-        a:hover {
-            color: var(--themeDarkAlt);
-            border-bottom-color: var(--themeDarkAlt);
-        }
-
-        main {
-            margin: 2rem auto 0;
-            max-width: 60rem;
-            padding: 1rem 1rem 1.25rem;
-        }
-
-        header img {
-            display: block;
-            width: 100%;
-            height: auto;
-            max-width: 16rem;
-            margin: 0 auto;
-        }
-
-        footer {
-            background: var(--white);
-            font-size: 0.75rem;
-            line-height: 1em;
-            color: var(--neutralTertiary);
-
-            padding: 0.75rem;
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            text-align: center;
-        }
-
-        button {
-            border: none;
-            background: var(--themePrimary);
-            color: var(--white);
-            padding: 0.75em 2.5em;
-            border-radius: 3px;
-            font-size: 1em;
-            line-height: 1em;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: var(--themeDarkAlt);
-        }
-
-        button:active {
-            background-color: var(--themeDark);
-        }
-
-        input,
-        textarea {
-            border: 1px solid var(--neutralTertiary);
-            font-size: inherit;
-            color: var(--neutralPrimary);
-            overflow: auto;
-            padding: 0.25rem;
-        }
-
-        textarea {
-            font-family: inherit;
-            width: 100%;
-            min-height: 15rem;
-        }
-
-        textarea::-webkit-input-placeholder,
-        input::-webkit-input-placeholder {
-            color: var(--neutralSecondary);
-        }
-
-        textarea:-moz-placeholder,
-        input:-moz-placeholder {
-            /* Firefox 18- */
-            color: var(--neutralSecondary);
-        }
-
-        textarea::-moz-placeholder,
-        input::-moz-placeholder {
-            /* Firefox 19+ */
-            color: var(--neutralSecondary);
-        }
-
-        textarea:-ms-input-placeholder,
-        input:-ms-input-placeholder {
-            color: var(--neutralSecondary);
-        }
-
-        textarea::placeholder,
-        input::placeholder {
-            color: var(--neutralSecondary);
-        }
-
-        input:hover,
-        textarea:hover {
-            border-color: var(--neutralPrimary)
-        }
-
-        input:focus,
-        textarea:focus {
-            border-color: var(--themePrimary)
-        }
-
-        form {
-            display: block;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--themeLight);
-            margin-bottom: 2rem;
-        }
-
-        form div {
-            font-size: 0.875rem;
-            line-height: 1.5em;
-            text-align: right;
-        }
-
-        form div input {
-            margin: 0 1rem;
-            width: 2.75rem;
-            height: 2rem;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        section strong {
-            color: var(--severeWarning);
-        }
-
-        #mathinput {
-            text-align: center;
-        }
-
-        #generatedLink {
-            background: var(--successGreenBackground);
-            border: 1px solid var(--successGreen);
-            padding: 1rem 2rem;
-            font-size: 1.5rem;
-            line-height: 2em;
-            text-align: center;
-            max-width: 35rem;
-            margin: 1.5rem auto 0;
-            border-radius: 3px;
-            display: block;
-        }  
-        
-        #message {
-            font-size: 1.5rem;
-            line-height: 2em;
-            text-align: center;
-
-            color: var(--severeWarning);
-        }
-
-        #message:empty {
-            display: none;
-        }
-
-        .redborder {
-            border-color: var(--severeWarning);
-        }
-
-        .greenborder {
-            border-color: var(--successGreen);
-        }
-
-        #validationErr {
-            color: var(--severeWarning);
-            font-style: italic;
-        }
-
-        #validationErr:empty {
-            display: none;
-        }
-
-        @media only screen and (max-width: 520px) {
-            main {
-                margin-top: 0;
-                padding-top: 0;
-            }
-
-            h1 {
-                text-align: center;
-                font-size: 1.75rem;
-                margin-bottom: 0.5em;
-            }
-
-            header img {
-                max-width: 8rem;
-            }
-
-            #generatedLink {
-                font-size: 1rem;
-                line-height: 1.5em;
-                margin-top: 1em;
-            }
-
-            form div {
-                margin-top: 1rem;
-                text-align: center;
-            }
-            #mathinput {
-                font-size: 1rem;
-                line-height: 1.5rem;
-                
-                width: 3em;
-                height: 3em;
-            }
-
-            button {
-                font-size: 1.2rem;
-                line-height: 1.5rem;
-                display: block;
-                width: 100%;
-                margin: 1rem auto 0;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <main>
         <header>
-            <label for="inputbody"><img src="/static/images/logo.png" alt="HTML Host gopher" /></label>
-            <h1 id="home"><a href="#home">Host your HTML for 1hr!</a></h1>
+            <label for="inputbody" id="gopher">
+                <label for="darktoggle" id="darktoggleLabel" title="Toggle dark mode">
+                    <input type="checkbox" id="darktoggle" />
+                </label>
+            </label>
         </header>
+        <div class="dropzone">
+            <input type="file" id="inputfile" ondrop="dropHandler" />
+            <span>Click or drop your HTML file here</span>
+        </div>
+        <p style="text-align: center;">OR</p>
         <form action="/non-existent" method="GET" id="pagesubmit">
-            <textarea id="inputbody" placeholder="Your HTML here. e.g. <h1>hello world</h1>" name="body">{{.Content}}</textarea>
+            <textarea id="inputbody" placeholder="Your HTML here. e.g. <h1>hello world</h1>"
+                name="body">{{.Content}}</textarea>
             <div>
                 <label for="mathinput">How much is <span id="equation"></span>?</label>
                 <input id="mathinput" type="tel" placeholder="0" maxlength="2" />
@@ -389,7 +61,6 @@
                 <br /><br />
                 <strong>Important:</strong> <em>The links are/will be kept alive only for 1hr. This is considering
                     NSFW content, legal issues etc. since everything is completely anonymous and 0% tracked.
-                    It was built out of a developer's frustration, please use responsibly.</em>
             </p>
         </section>
 
@@ -407,7 +78,8 @@
                 your template is hosted, and won't accept the HTML as is. And that's where my journey started,
                 after searching around and trying to use some of the services, finally I hosted it as
                 a <a href="https://github.com/bnkamalesh">Github</a> page. For me it turned out to be a time
-                consuming endeavour and I didn't think it was worth it, and thus <a href="/#home">https://hosthtml.live</a>!
+                consuming endeavour and I didn't think it was worth it, and thus <a
+                    href="/#home">https://hosthtml.live</a>!
             </p>
         </section>
 
@@ -424,61 +96,14 @@
         </section>
     </main>
     <footer><a href="https://kamaleshwar.com" target="_blank">Kamaleshwar</a> &copy; 2020</footer>
-
     <script>
-        (function () {
-            const generatedLinkDOM = document.querySelector("#generatedLink");
-            const genLinkTxt = "{{.Link}}";
-            if (genLinkTxt == "") {
-                generatedLinkDOM.remove()
-            }
-
-            const formDOM = document.getElementById("pagesubmit");
-            const validationErrDOM = document.getElementById("validationErr");
-            const a = parseInt(Math.random() * 100) % 10, b = parseInt((Math.random() * 100)) % 10;
-            const equationDOM = document.getElementById("equation");
-            equationDOM.innerHTML = a + " + " + b;
-
-            const mathDOM = document.getElementById("mathinput");
-            mathDOM.onchange = () => {
-                validationErrDOM.innerHTML = ""
-                if (parseInt(mathDOM.value) == (a + b)) {
-                    mathDOM.className = "greenborder"
-                } else {
-                    mathDOM.className = "redborder"
-                }
-            };
-
-
-            const textareaDOM = formDOM.querySelector("textarea");
-            textareaDOM.onchange = () => {
-                validationErrDOM.innerHTML = ""
-                if (!textareaDOM.value.trim()) {
-                    textareaDOM.className = "redborder"
-                } else {
-                    textareaDOM.className = "greenborder"
-                }
-            }
-
-            formDOM.onsubmit = (e) => {
-                if (parseInt(mathDOM.value) !== (a + b)) {
-                    mathDOM.className = "redborder"
-                    validationErrDOM.innerHTML = 'here you go, the correct answer is <strong style="font-style: normal">' + (a + b) + '<strong>'
-                    return false
-                }
-
-                if (!textareaDOM.value.trim()) {
-                    textareaDOM.className = "redborder"
-                    validationErrDOM.innerHTML = "how about we add some content as well? :)"
-                    return false
-                }
-
-                formDOM.setAttribute("action", "/#inputbody")
-                formDOM.setAttribute("method", "POST")
-            }
-
-        }());
+        const generatedLinkDOM = document.querySelector("#generatedLink");
+        const genLinkTxt = "{{.Link}}";
+        if (genLinkTxt == "") {
+            generatedLinkDOM.remove()
+        }
     </script>
+    <script src="/static/js/main.js"> </script>
 </body>
 
 </html>

@@ -1,7 +1,11 @@
 github.com/bnkamalesh/errors v0.1.10 h1:9H2vMoYtb6e+PKNiqbBHdQ3I/pWRAAen6+uFgH0jJ74=
 github.com/bnkamalesh/errors v0.1.10/go.mod h1:FQgYzv2aq3DI5JNr+ICLl0PbPokCJY56C/+mhZ8TpaU=
+github.com/bnkamalesh/errors v0.3.5 h1:z31PjJs3Hoge4iUN4BFXhS3FeSBws30+RfmasPqkthI=
+github.com/bnkamalesh/errors v0.3.5/go.mod h1:FQgYzv2aq3DI5JNr+ICLl0PbPokCJY56C/+mhZ8TpaU=
 github.com/bnkamalesh/webgo/v4 v4.1.3 h1:6LI5fNODmyOHiSCqbI6ZvxvL0hV+Xb7ZptDfSr3oyPg=
 github.com/bnkamalesh/webgo/v4 v4.1.3/go.mod h1:taIAonQTzao8G5rnB22WgKmQuIOWHpQ0n/YLAidBXlM=
+github.com/bnkamalesh/webgo/v5 v5.0.0 h1:zEcTzMHMQ6AwTRUXhVjjLTST6U5xjd6G6qtWJqQJuTI=
+github.com/bnkamalesh/webgo/v5 v5.0.0/go.mod h1:s38oagTmPuhP2oGzMsTWwAqdDi6aEjPUVXFOOUzKHak=
 github.com/cheekybits/is v0.0.0-20150225183255-68e9c0620927/go.mod h1:h/aW8ynjgkuj+NQRlZcDbAbM1ORAbXjXX77sX7T289U=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

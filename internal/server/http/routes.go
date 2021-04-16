@@ -3,60 +3,60 @@ package http
 import (
 	"net/http"
 
-	"github.com/bnkamalesh/webgo/v4"
+	"github.com/bnkamalesh/webgo/v5"
 )
 
 func routesMetaStatic(handlers *Handler) []*webgo.Route {
 	return []*webgo.Route{
-		&webgo.Route{
+		{
 			Name:     "favicon.ico",
 			Pattern:  "/favicon.ico",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "favicon32",
 			Pattern:  "/favicon-32x32.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "favicon16",
 			Pattern:  "/favicon-16x16.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "apple-touch-icon",
 			Pattern:  "/apple-touch-icon.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "mstile-150x150",
 			Pattern:  "/mstile-150x150.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "android-chrome-192x192",
 			Pattern:  "/android-chrome-192x192.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "android-chrome-256x256",
 			Pattern:  "/android-chrome-256x256.png",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "safari-pinned",
 			Pattern:  "/safari-pinned-tab.svg",
 			Method:   http.MethodGet,
 			Handlers: []http.HandlerFunc{handlers.MetaStatic},
 		},
-		&webgo.Route{
+		{
 			Name:     "site-manifest",
 			Pattern:  "/site.webmanifest",
 			Method:   http.MethodGet,
@@ -69,7 +69,6 @@ func routes(handlers *Handler) []*webgo.Route {
 	allroutes := routesMetaStatic(handlers)
 	allroutes = append(
 		allroutes,
-
 		&webgo.Route{
 			Name:     "home",
 			Pattern:  "/",

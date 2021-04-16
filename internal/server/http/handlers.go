@@ -11,7 +11,7 @@ import (
 
 	"github.com/bnkamalesh/errors"
 	"github.com/bnkamalesh/htmlhost/internal/api"
-	"github.com/bnkamalesh/webgo/v4"
+	"github.com/bnkamalesh/webgo/v5"
 	"github.com/tdewolff/minify/v2"
 )
 

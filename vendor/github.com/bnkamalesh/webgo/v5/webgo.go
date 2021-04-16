@@ -25,9 +25,8 @@ const wgoCtxKey = ctxkey("webgocontext")
 
 // ContextPayload is the WebgoContext. A new instance of ContextPayload is injected inside every request's context object
 type ContextPayload struct {
-	Route     *Route
-	path      string
-	pathbytes []byte
+	Route *Route
+	path  string
 }
 
 // Params returns the URI parameters of the respective route
@@ -117,7 +116,7 @@ func (router *Router) Shutdown() error {
 	}
 	timer := router.config.ShutdownTimeout
 
-	ctx, cancel := context.WithTimeout(context.Background(), timer)
+	ctx, cancel := context.WithTimeout(context.TODO(), timer)
 	defer cancel()
 
 	err := router.httpServer.Shutdown(ctx)
@@ -134,7 +133,7 @@ func (router *Router) ShutdownHTTPS() error {
 	}
 	timer := router.config.ShutdownTimeout
 
-	ctx, cancel := context.WithTimeout(context.Background(), timer)
+	ctx, cancel := context.WithTimeout(context.TODO(), timer)
 	defer cancel()
 
 	err := router.httpsServer.Shutdown(ctx)

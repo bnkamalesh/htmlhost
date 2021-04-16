@@ -55,7 +55,6 @@ func crwAsserter(w http.ResponseWriter, rCode int) http.ResponseWriter {
 // `{data: <data>, status: <int>` struct
 func Send(w http.ResponseWriter, contentType string, data interface{}, rCode int) {
 	w = crwAsserter(w, rCode)
-
 	w.Header().Set(HeaderContentType, contentType)
 	_, err := fmt.Fprint(w, data)
 	if err != nil {
@@ -108,17 +107,6 @@ func Render(w http.ResponseWriter, data interface{}, rCode int, tpl *template.Te
 		Send(w, "text/plain", ErrInternalServer, http.StatusInternalServerError)
 		LOGHANDLER.Error(err.Error())
 	}
-}
-
-// Render404 - used to render a 404 page
-func Render404(w http.ResponseWriter, tpl *template.Template) {
-	Render(w, ErrorData{
-		http.StatusNotFound,
-		"Sorry, the URL you requested was not found on this server... Or you're lost :-/",
-	},
-		http.StatusNotFound,
-		tpl,
-	)
 }
 
 // R200 - Successful/OK response

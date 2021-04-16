@@ -1,0 +1,438 @@
+:root {
+  --themePrimary: #019ced;
+  --themeLighterAlt: #f4fbfe;
+  --themeLighter: #d4eefc;
+  --themeLight: #afdffa;
+  --themeTertiary: #62c1f4;
+  --themeSecondary: #1da6ef;
+  --themeDarkAlt: #008bd5;
+  --themeDark: #0075b4;
+  --themeDarker: #005685;
+  --neutralLighterAlt: #f6f6f6;
+  --neutralLighter: #f2f2f2;
+  --neutralLight: #e8e8e8;
+  --neutralQuaternaryAlt: #d8d8d8;
+  --neutralQuaternary: #cecece;
+  --neutralTertiaryAlt: #c6c6c6;
+  --neutralTertiary: #c2c2c2;
+  --neutralSecondary: #858585;
+  --neutralPrimaryAlt: #4b4b4b;
+  --neutralPrimary: #333333;
+  --neutralDark: #272727;
+
+  --warm: #fdecdd;
+  --warm2: #fad0ad;
+  --black: #1d1d1d;
+  --white: #fcfcfc;
+
+  --black: #1d1d1d;
+  --white: #fcfcfc;
+
+  --severeWarning: #d83b01;
+  --successGreen: #107c10;
+  --successGreenBackground: #dff6dd;
+}
+
+* {
+  box-sizing: border-box;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s,
+    margin 0.25s, font-size 0.25s, width 0.25s, max-width 0.25s;
+}
+
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+}
+
+html {
+  font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI",
+    -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+  font-weight: 300;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  padding: 0 1rem 2rem;
+  margin: 0;
+}
+
+strong {
+  font-weight: 700;
+}
+
+em {
+  font-size: 0.875rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--themeDark);
+  margin: 0 0 1em;
+  padding: 0;
+  line-height: 1.5em;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+h5 {
+  font-size: 0.875rem;
+}
+
+h6 {
+  font-size: 0.75rem;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--themePrimary);
+  transition: color 0.25s;
+  cursor: pointer;
+  border-bottom: 1px solid var(--white);
+}
+
+a:hover {
+  color: var(--themeDarkAlt);
+  border-bottom-color: var(--themeDarkAlt);
+}
+
+main {
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 1rem 1rem 1.25rem;
+}
+header {
+  text-align: center;
+}
+header img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 16rem;
+  margin: 0 auto;
+}
+
+footer {
+  background: var(--white);
+  font-size: 0.75rem;
+  line-height: 1em;
+  color: var(--neutralTertiary);
+
+  padding: 0.75rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+footer a {
+  font-style: normal;
+}
+
+button {
+  border: none;
+  background: var(--themePrimary);
+  color: var(--white);
+  padding: 0.75em 2.5em;
+  border-radius: 3px;
+  font-size: 1em;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--themeDarkAlt);
+}
+
+button:active {
+  background-color: var(--themeDark);
+}
+
+input,
+textarea {
+  border: 1px solid var(--neutralTertiary);
+  font-size: inherit;
+  color: var(--neutralPrimary);
+  overflow: auto;
+  padding: 0.25rem;
+}
+
+textarea {
+  font-family: inherit;
+  width: 100%;
+  min-height: 15rem;
+  margin: 1rem 0;
+}
+
+textarea::-webkit-input-placeholder,
+input::-webkit-input-placeholder {
+  color: var(--neutralSecondary);
+}
+
+textarea:-moz-placeholder,
+input:-moz-placeholder {
+  /* Firefox 18- */
+  color: var(--neutralSecondary);
+}
+
+textarea::-moz-placeholder,
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: var(--neutralSecondary);
+}
+
+textarea:-ms-input-placeholder,
+input:-ms-input-placeholder {
+  color: var(--neutralSecondary);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: var(--neutralSecondary);
+}
+
+input:hover,
+textarea:hover {
+  border-color: var(--neutralPrimary);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--themePrimary);
+}
+
+form {
+  display: block;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--themeLight);
+  margin-bottom: 2rem;
+}
+
+form div {
+  font-size: 0.875rem;
+  line-height: 1.5em;
+  text-align: right;
+}
+
+form div input {
+  margin: 0 1rem;
+  width: 2.75rem;
+  height: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+section strong {
+  color: var(--severeWarning);
+}
+
+.dropzone {
+  padding: 2rem;
+  margin: 1em auto;
+  border: 1px solid var(--t);
+  position: relative;
+  width: 100%;
+  max-width: 35rem;
+  border: 1px solid var(--neutralPrimary);
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropzone input[type="file"] {
+  opacity: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: none;
+  cursor: pointer;
+}
+
+#gopher {
+  display: inline-block;
+  width: 12rem;
+  height: 12rem;
+  background: no-repeat url("/static/images/logo.png") center;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+}
+
+#darktoggleLabel {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0);
+  cursor: pointer;
+  transition: box-shadow 0.25s, border-color 0.25s;
+
+  box-shadow: inset 0.4rem 0px var(--neutralSecondary),
+    inset 0.4rem 0px 1px 2px var(--neutralSecondary);
+  rotate: -30deg;
+
+  position: absolute;
+  bottom: 5%;
+  left: 44%;
+}
+
+#darktoggleLabel input {
+  opacity: 0;
+  cursor: pointer;
+}
+
+#mathinput {
+  text-align: center;
+}
+
+#generatedLink {
+  background: var(--successGreenBackground);
+  border: 1px solid var(--successGreen);
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  line-height: 2em;
+  text-align: center;
+  max-width: 35rem;
+  margin: 1.5rem auto 0;
+  border-radius: 3px;
+  display: block;
+}
+
+#message {
+  font-size: 1.5rem;
+  line-height: 2em;
+  text-align: center;
+
+  color: var(--severeWarning);
+}
+
+#message:empty {
+  display: none;
+}
+
+.redborder {
+  border-color: var(--severeWarning);
+}
+
+.greenborder {
+  border-color: var(--successGreen);
+}
+
+#validationErr {
+  color: var(--severeWarning);
+  font-style: italic;
+}
+
+#validationErr:empty {
+  display: none;
+}
+
+@media only screen and (max-width: 520px) {
+  main {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 0.5em;
+  }
+
+  header img {
+    max-width: 8rem;
+  }
+
+  #generatedLink {
+    font-size: 1rem;
+    line-height: 1.5em;
+    margin-top: 1em;
+  }
+
+  form div {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  #mathinput {
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    width: 3em;
+    height: 3em;
+  }
+
+  button {
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    display: block;
+    width: 100%;
+    margin: 1rem auto 0;
+  }
+}
+
+/* Dark theme settings */
+
+body.dark #darktoggleLabel {
+  background-color: var(--warm);
+  box-shadow: 0 0 2px var(--warm);
+  border-color: var(--warm2);
+}
+
+body.dark #darktoggleLabel:hover {
+  box-shadow: 0 0 6px var(--warm);
+}
+
+body.dark,
+body.dark input,
+body.dark textarea {
+  background-color: var(--neutralDark);
+  color: var(--neutralLight);
+}
+
+body.dark input:hover,
+body.dark textarea:hover,
+body.dark .dropzone {
+  border-color: var(--neutralLight);
+}
+
+body.dark input:focus,
+body.dark textarea:focus {
+  border-color: var(--themeDark);
+}
+
+body.dark footer {
+  background: var(--neutralDark);
+  color: var(--neutralLight);
+}

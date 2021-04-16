@@ -86,37 +86,36 @@ func (e *Error) Error() string {
 // which are not of type *Error
 func (e *Error) Message() string {
 	messages := make([]string, 0, 5)
-	messages = append(messages, e.message)
+	if e.message != "" {
+		messages = append(messages, e.message)
+	}
 
 	err, _ := e.original.(*Error)
 	for err != nil {
+		if err.message == "" {
+			err, _ = err.original.(*Error)
+			continue
+		}
 		messages = append(messages, err.message)
 		err, _ = err.original.(*Error)
 	}
 
-	if len(messages) > 1 {
+	if len(messages) > 0 {
 		return strings.Join(messages, ". ")
 	}
 
-	return e.message
+	return e.Error()
 }
 
 // Unwrap implement's Go 1.13's Unwrap interface exposing the wrapped error
 func (e *Error) Unwrap() error {
-	if e.original == nil {
-		return nil
-	}
-
 	return e.original
 }
 
 // Is implements the Is interface required by Go
 func (e *Error) Is(err error) bool {
 	o, _ := err.(*Error)
-	if o == nil {
-		return false
-	}
-	return o == e
+	return o != nil && o == e
 }
 
 // HTTPStatusCode is a convenience method used to get the appropriate HTTP response status code for the respective error type
@@ -178,6 +177,15 @@ func (e *Error) Type() errType {
 func New(msg string) *Error {
 	_, file, line, _ := runtime.Caller(1)
 	return newerr(nil, msg, file, line, defaultErrType)
+}
+
+func Newf(fromat string, args ...interface{}) *Error {
+	_, file, line, _ := runtime.Caller(1)
+	return newerrf(nil, file, line, defaultErrType, fromat, args...)
+}
+func Errorf(fromat string, args ...interface{}) *Error {
+	_, file, line, _ := runtime.Caller(1)
+	return newerrf(nil, file, line, defaultErrType, fromat, args...)
 }
 
 // SetDefaultType will set the default error type, which is used in the 'New' function
