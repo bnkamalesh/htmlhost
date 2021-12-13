@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/bnkamalesh/htmlhost/internal/api"
-	"github.com/bnkamalesh/webgo/v5"
-	"github.com/bnkamalesh/webgo/v5/middleware/accesslog"
+	"github.com/bnkamalesh/webgo/v6"
+	"github.com/bnkamalesh/webgo/v6/middleware/accesslog"
 )
 
 type Server struct {
@@ -92,7 +92,7 @@ func New(cfg *Config, api *api.API) (*Server, error) {
 	}
 
 	httproutes := routes(handlers)
-	router := webgo.NewRouter(wcfg, httproutes)
+	router := webgo.NewRouter(wcfg, httproutes...)
 	router.Use(accesslog.AccessLog)
 	router.UseOnSpecialHandlers(accesslog.AccessLog)
 

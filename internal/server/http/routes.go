@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/bnkamalesh/webgo/v5"
+	"github.com/bnkamalesh/webgo/v6"
 )
 
 func routesMetaStatic(handlers *Handler) []*webgo.Route {

@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/bnkamalesh/errors"
-	"github.com/bnkamalesh/webgo/v5"
+	"github.com/bnkamalesh/webgo/v6"
 	"github.com/h2non/filetype"
 	svg "github.com/h2non/go-is-svg"
 	"github.com/tdewolff/minify/v2"

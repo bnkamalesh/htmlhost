@@ -8,7 +8,7 @@ import (
 
 	"github.com/bnkamalesh/errors"
 	"github.com/bnkamalesh/htmlhost/internal/pages"
-	"github.com/bnkamalesh/webgo/v5"
+	"github.com/bnkamalesh/webgo/v6"
 )
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
