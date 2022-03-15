@@ -1,11 +1,12 @@
 # github.com/bnkamalesh/errors v0.9.0
 ## explicit
 github.com/bnkamalesh/errors
-# github.com/bnkamalesh/webgo/v6 v6.2.2
+# github.com/bnkamalesh/webgo/v6 v6.6.1
 ## explicit
 github.com/bnkamalesh/webgo/v6
+github.com/bnkamalesh/webgo/v6/extensions/sse
 github.com/bnkamalesh/webgo/v6/middleware/accesslog
-# github.com/gomodule/redigo v1.8.6
+# github.com/gomodule/redigo v1.8.8
 ## explicit
 github.com/gomodule/redigo/redis
 # github.com/h2non/filetype v1.1.3
@@ -17,13 +18,13 @@ github.com/h2non/filetype/types
 # github.com/h2non/go-is-svg v0.0.0-20160927212452-35e8c4b0612c
 ## explicit
 github.com/h2non/go-is-svg
-# github.com/tdewolff/minify/v2 v2.9.10
+# github.com/tdewolff/minify/v2 v2.10.0
 ## explicit
 github.com/tdewolff/minify/v2
 github.com/tdewolff/minify/v2/css
 github.com/tdewolff/minify/v2/html
 github.com/tdewolff/minify/v2/js
-# github.com/tdewolff/parse/v2 v2.5.5
+# github.com/tdewolff/parse/v2 v2.5.27
 github.com/tdewolff/parse/v2
 github.com/tdewolff/parse/v2/buffer
 github.com/tdewolff/parse/v2/css

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,10 +10,12 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/bnkamalesh/webgo/v6"
+	"github.com/bnkamalesh/webgo/v6/extensions/sse"
+	"github.com/tdewolff/minify/v2"
+
 	"github.com/bnkamalesh/errors"
 	"github.com/bnkamalesh/htmlhost/internal/api"
-	"github.com/bnkamalesh/webgo/v6"
-	"github.com/tdewolff/minify/v2"
 )
 
 var (
@@ -25,9 +28,9 @@ var (
 type Handler struct {
 	templates        map[string]*template.Template
 	generatedBaseURL string
-
-	minifier *minify.M
-	api      *api.API
+	sse              *sse.SSE
+	minifier         *minify.M
+	api              *api.API
 }
 
 func (handler *Handler) recoverer(w http.ResponseWriter) {
@@ -92,6 +95,18 @@ func (h *Handler) minifiedHTML(w http.ResponseWriter, payload []byte) {
 	w.Write(minified)
 }
 
+func (h *Handler) SSEHandler(w http.ResponseWriter, r *http.Request) {
+
+	clientID := webgo.Context(r).Params()["clientID"]
+	r.Header.Set(h.sse.ClientIDHeader, clientID)
+	err := h.sse.Handler(w, r)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_, _ = w.Write([]byte(err.Error()))
+		return
+	}
+}
+
 func newHandler(a *api.API, baseURL string) (*Handler, error) {
 	tpl, err := template.ParseFiles(
 		"./internal/server/http/web/templates/home.html",
@@ -100,6 +115,22 @@ func newHandler(a *api.API, baseURL string) (*Handler, error) {
 		return nil, err
 	}
 
+	sseService := sse.New()
+
+	go func() {
+		for {
+			count, _ := a.ActivePages(context.Background())
+			sseService.Broadcast(sse.Message{
+				Data: fmt.Sprintf(
+					`{"activeClients":%d,"activePages":%d}`,
+					sseService.ActiveClients(),
+					count,
+				),
+			})
+			time.Sleep(time.Second * 1)
+		}
+	}()
+
 	return &Handler{
 		api:              a,
 		generatedBaseURL: baseURL,
@@ -107,5 +138,6 @@ func newHandler(a *api.API, baseURL string) (*Handler, error) {
 			"home": tpl,
 		},
 		minifier: newMinifier(),
+		sse:      sseService,
 	}, nil
 }

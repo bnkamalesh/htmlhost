@@ -28,11 +28,11 @@ func (ps *Pages) Create(ctx context.Context, pg *Page) (*Page, error) {
 }
 
 func (ps *Pages) Read(ctx context.Context, pageID string) (*Page, error) {
-	pg, err := ps.store.Read(ctx, pageID)
-	if err != nil {
-		return nil, err
-	}
-	return pg, nil
+	return ps.store.Read(ctx, pageID)
+}
+
+func (ps *Pages) Active(ctx context.Context) (int, error) {
+	return ps.store.Active(ctx)
 }
 
 type Page struct {

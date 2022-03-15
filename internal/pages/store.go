@@ -5,6 +5,11 @@ import (
 	"time"
 
 	"github.com/bnkamalesh/errors"
+	"github.com/gomodule/redigo/redis"
+)
+
+const (
+	pagesKeyPrefix = "pages/"
 )
 
 type Config struct {
@@ -23,6 +28,7 @@ type Config struct {
 type store interface {
 	Create(context.Context, *Page) error
 	Read(context.Context, string) (*Page, error)
+	Active(context.Context) (int, error)
 }
 
 type pagestore struct {
@@ -41,11 +47,11 @@ func (p *pagestore) Create(ctx context.Context, pg *Page) error {
 		return err
 	}
 
-	key := "pages/" + pg.ID
+	key := pagesKeyPrefix + pg.ID
 
 	_, err = conn.Do("SET", key, payload)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "failed storing page data")
 	}
 
 	duration := pg.Expiry.Sub(pg.CreatedAt)
@@ -65,11 +71,11 @@ func (p *pagestore) Read(ctx context.Context, pageID string) (*Page, error) {
 	}
 	defer conn.Close()
 
-	key := "pages/" + pageID
+	key := pagesKeyPrefix + pageID
 
 	payload, err := conn.Do("GET", key)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed reading page data")
 	}
 
 	pbytes, ok := payload.([]byte)
@@ -84,6 +90,25 @@ func (p *pagestore) Read(ctx context.Context, pageID string) (*Page, error) {
 	}
 
 	return pg, nil
+}
+
+func (p *pagestore) Active(ctx context.Context) (int, error) {
+	conn, err := p.rd.Conn(ctx)
+	if err != nil {
+		return 0, err
+	}
+	defer conn.Close()
+
+	reply, err := conn.Do("KEYS", pagesKeyPrefix+"*")
+	if err != nil {
+		return 0, errors.Wrap(err, "failed getting keys")
+	}
+
+	bslices, err := redis.ByteSlices(reply, err)
+	if err != nil {
+		return 0, errors.Wrap(err, "failed getting bytes")
+	}
+	return len(bslices), nil
 }
 
 func newStore(cfg *Config) (*pagestore, error) {

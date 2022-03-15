@@ -25,3 +25,12 @@ func (a *API) PageRead(ctx context.Context, pageID string) (*pages.Page, error) 
 	}
 	return pg, nil
 }
+
+func (a *API) ActivePages(ctx context.Context) (int, error) {
+	count, err := a.pagesSvc.Active(ctx)
+	if err != nil {
+		log.Println(errors.Stacktrace(err))
+		return 0, err
+	}
+	return count, nil
+}

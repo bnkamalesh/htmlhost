@@ -25,7 +25,7 @@ func (cfg *Configs) HTTP() *http.Config {
 		Host:             cfg.getEnv("HTTP_HOST"),
 		Port:             cfg.getEnv("HTTP_PORT"),
 		ReadTimeout:      time.Second * 3,
-		WriteTimeout:     time.Second * 3,
+		WriteTimeout:     time.Hour * 1,
 		GeneratedBaseURL: baseURL,
 	}
 }

@@ -7,9 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bnkamalesh/htmlhost/internal/api"
 	"github.com/bnkamalesh/webgo/v6"
 	"github.com/bnkamalesh/webgo/v6/middleware/accesslog"
+
+	"github.com/bnkamalesh/htmlhost/internal/api"
 )
 
 type Server struct {

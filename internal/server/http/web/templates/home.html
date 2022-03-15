@@ -33,6 +33,10 @@
                     <input type="checkbox" id="darktoggle" />
                 </label>
             </label>
+            <div>
+                Active viewers: <strong><span id="live-viewers">&nbsp;</span></strong> | 
+                Live pages: <strong><span id="live-pages">&nbsp;</span></strong>
+            </div>
         </header>
         <div class="dropzone">
             <input type="file" id="inputfile" ondrop="dropHandler" />
@@ -103,7 +107,7 @@
             generatedLinkDOM.remove()
         }
     </script>
-    <script src="/static/js/main.js"> </script>
+    <script src="/static/js/main.js"></script>
 </body>
 
 </html>
