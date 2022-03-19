@@ -1,7 +1,7 @@
 # github.com/bnkamalesh/errors v0.9.0
 ## explicit
 github.com/bnkamalesh/errors
-# github.com/bnkamalesh/webgo/v6 v6.6.1
+# github.com/bnkamalesh/webgo/v6 v6.6.2
 ## explicit
 github.com/bnkamalesh/webgo/v6
 github.com/bnkamalesh/webgo/v6/extensions/sse
